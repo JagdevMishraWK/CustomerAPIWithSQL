@@ -1,15 +1,21 @@
+using CustomerWebAPI.DBContext;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add(new ValidateAntiForgeryTokenAttribute());
-});
+
+/* Database Context Dependency Injection */
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+var connectionString = $"Data Source={dbHost};Initial Catalog={dbName};User ID=sa;Password={dbPassword};TrustServerCertificate=true";
+builder.Services.AddDbContext<CustomerDbContext>(opt => opt.UseSqlServer(connectionString));
+/* ===================================== */
 
 // Add services to the container.
 var app = builder.Build();
