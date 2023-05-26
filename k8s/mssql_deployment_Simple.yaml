@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mssql
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: mssql
@@ -23,7 +23,7 @@ spec:
           - name: ACCEPT_EULA
             value: "Y"
           - name: SA_PASSWORD
-            value:  "P@ssw0rd"
+            value:  "password@12345#"
 ---
 apiVersion: v1
 kind: Service
