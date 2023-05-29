@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mssql-deployment-simple
+  name: mssql-deployment
   labels:
     app: mssql
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mssql
@@ -24,11 +24,18 @@ spec:
             value: "Y"
           - name: SA_PASSWORD
             value:  "password@12345#"
+          volumeMounts:
+          - mountPath: "/var/opt/mssql"
+            name: mssqldb
+      volumes:
+      - name: mssqldb
+        persistentVolumeClaim:
+          claimName: mssql-deployment-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mssql-service-simple
+  name: mssql-service
 spec:
   selector:
     app: mssql
