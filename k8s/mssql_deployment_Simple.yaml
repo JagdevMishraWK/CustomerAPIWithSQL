@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   name: mssql-deployment-simple
   labels:
-    app: mssql
+    app: mssql-simple
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: mssql
+      app: mssql-simple
   template:
     metadata:
       labels:
-        app: mssql
+        app: mssql-simple
     spec:
       containers:
-        - name: mssql
+        - name: mssql-simple
           image: mcr.microsoft.com/mssql/server
           ports:
           - containerPort: 1433
@@ -31,7 +31,7 @@ metadata:
   name: mssql-service-simple
 spec:
   selector:
-    app: mssql
+    app: mssql-simple
   ports:
     - protocol: TCP
       port: 1433
