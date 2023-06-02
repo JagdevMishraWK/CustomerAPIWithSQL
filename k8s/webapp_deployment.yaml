@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webappdemo
+  labels:
+    app: mssql
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mssql
+  template:
+    metadata:
+      labels:
+        app: mssql
+    spec:
+      containers:
+        - name: webappdemo
+          image: 943725333913.dkr.ecr.eu-west-1.amazonaws.com/mywebapp
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+        - name: mssql-simple
+          image: mcr.microsoft.com/mssql/server
+          ports:
+            - containerPort: 1433
+          env:
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: SA_PASSWORD
+            value:  "password@12345#"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappdemo
+spec:
+  selector:
+    app: mssql
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

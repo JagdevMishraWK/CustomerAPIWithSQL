@@ -14,6 +14,11 @@ var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
 var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
 var connectionString = $"Data Source={dbHost};Initial Catalog={dbName};User ID=sa;Password={dbPassword};TrustServerCertificate=true";
+
+//var dbHostStatic = "ac6942cdb4fb843dcb2071cb7cb77a73-1000680396.eu-west-1.elb.amazonaws.com,1433";
+//var connectionStringStatic = $"Data Source={dbHostStatic};Initial Catalog={"CustomerDB"};User ID=sa;Password={"password@12345#"};TrustServerCertificate=true";
+
+
 builder.Services.AddDbContext<CustomerDbContext>(opt => opt.UseSqlServer(connectionString));
 /* ===================================== */
 
